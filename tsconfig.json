@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "lib": ["es2015"],
+    "module": "es2015",
+    "target": "es5",
+    "declaration": true,
+    "importHelpers": true,
+    "noEmitOnError": true,
+    "removeComments": true,
+    "sourceMap": false,
+    "alwaysStrict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "strictNullChecks": true
+  },
+  "include": [
+    "./lib/**/*.ts"
+  ]
+}
