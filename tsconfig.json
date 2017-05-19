@@ -2,6 +2,7 @@
   "compilerOptions": {
     "lib": ["es2015"],
     "module": "es2015",
+    "moduleResolution": "Node",
     "target": "es5",
     "declaration": true,
     "importHelpers": true,
@@ -17,6 +18,7 @@
     "strictNullChecks": true
   },
   "include": [
-    "./lib/**/*.ts"
+    "./lib/**/*.ts",
+    "./test/**/*.ts"
   ]
 }

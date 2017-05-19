@@ -4,7 +4,7 @@
   "description": "My simple flux implementation for me.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,8 @@
   "homepage": "https://github.com/uhyo/my-flux#readme",
   "devDependencies": {
     "@types/jest": "^19.2.3",
+    "babel-jest": "^20.0.3",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-typescript": "^3.1.6",
@@ -30,5 +32,18 @@
   },
   "dependencies": {
     "tslib": "^1.7.1"
+  },
+  "babel": {
+    "plugins": [
+      "transform-es2015-modules-commonjs"
+    ]
+  },
+  "jest": {
+    "testMatch": [
+      "**/dist/test/**/*.js"
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    }
   }
 }
