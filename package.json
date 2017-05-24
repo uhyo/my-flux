@@ -21,10 +21,12 @@
   "homepage": "https://github.com/uhyo/my-flux#readme",
   "devDependencies": {
     "@types/jest": "^19.2.3",
+    "@types/node": "^7.0.21",
     "babel-jest": "^20.0.3",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
+    "gulp-changed": "^3.1.0",
     "gulp-typescript": "^3.1.6",
     "jest": "^20.0.3",
     "merge2": "^1.0.3",
@@ -41,6 +43,11 @@
   "jest": {
     "testMatch": [
       "**/dist/test/**/*.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/dist/test/util/",
+      "<rootDir>/dist/test/typing/"
     ],
     "transform": {
       "^.+\\.js$": "babel-jest"

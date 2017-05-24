@@ -1,4 +1,5 @@
 const gulp = require('gulp');
+const gulpChanged = require('gulp-changed');
 const merge2 = require('merge2');
 
 const del = require('del');
@@ -26,16 +27,24 @@ gulp.task('watch-tsc', ['tsc'], ()=>{
 });
 
 gulp.task('test-tsc', ()=>{
-    return gulp.src('./test/**/*.ts')
+    return gulp.src(['./test/**/*.ts', '!./test/typing/**/*.ts'])
     .pipe(tsTestProj())
     .js.pipe(gulp.dest('dist/test'));
 });
 gulp.task('watch-test-tsc', ['test-tsc'], ()=>{
-    gulp.watch('test/**/*.ts', ['test-tsc']);
+    gulp.watch(['test/**/*.ts', '!test/typing/**/*.ts'], ['test-tsc']);
+});
+gulp.task('test-typing', ()=>{
+    return gulp.src('./test/typing/**/*.ts')
+    .pipe(gulpChanged('dist/test/typing'))
+    .pipe(gulp.dest('dist/test/typing'));
+});
+gulp.task('watch-test-typing', ['test-typing'], ()=>{
+    gulp.watch('test/typing/**/*.ts', ['test-typing']);
 });
 
-gulp.task('default', ['tsc', 'test-tsc']);
-gulp.task('watch', ['watch-tsc', 'watch-test-tsc']);
+gulp.task('default', ['tsc', 'test-tsc', 'test-typing']);
+gulp.task('watch', ['watch-tsc', 'watch-test-tsc', 'watch-test-typing']);
 
 gulp.task('clean', ()=>{
     return del([
