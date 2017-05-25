@@ -8,7 +8,7 @@ import {
 
 describe('combineReducers', ()=>{
     interface Action{
-        type: 'foo' | 'bar' | 'baz';
+        type: 'foo' | 'bar' | 'baz' | 'none';
         value: string;
     };
     /*
@@ -18,21 +18,21 @@ describe('combineReducers', ()=>{
         baz: string;
     }
     */
-    const fooReducer: Reducer<string, Action> = (state: string, action: Action)=>{
+    const fooReducer: Reducer<string, Action> = (state: string = 'foo', action: Action)=>{
         if (action.type === 'foo'){
             return action.value;
         }else{
             return state;
         }
     };
-    const barReducer: Reducer<string, Action> = (state: string, action: Action)=>{
+    const barReducer: Reducer<string, Action> = (state: string = 'bar', action: Action)=>{
         if (action.type === 'bar'){
             return action.value;
         }else{
             return state;
         }
     };
-    const bazReducer: Reducer<string, Action> = (state: string, action: Action)=>{
+    const bazReducer: Reducer<string, Action> = (state: string = 'baz', action: Action)=>{
         if (action.type === 'baz'){
             return action.value;
         }else{
@@ -161,6 +161,24 @@ describe('combineReducers', ()=>{
             ['', action2],
             ['', action3],
         ]);
+    });
+
+    it('Collects initial state when undefined is passed', ()=>{
+        const reducer = combineReducers({
+            foo: fooReducer,
+            bar: barReducer,
+            baz: bazReducer,
+        });
+
+        const state = reducer(undefined, {
+            type: 'none',
+            value: '',
+        });
+        expect(state).toEqual({
+            foo: 'foo',
+            bar: 'bar',
+            baz: 'baz',
+        });
     });
 
     it('combines reducer types', async ()=>{

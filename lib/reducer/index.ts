@@ -16,10 +16,10 @@ export type ReducersDict<D, A> = {
  */
 export function combineReducers<D, A>(dict: ReducersDict<D, A>): Reducer<D, A>{
     const keys = Object.keys(dict) as Array<keyof D>;
-    return (state: D, action: A)=>{
+    return (state: D | undefined, action: A)=>{
         const result: any = {};
         for (const key of keys){
-            result[key] = dict[key](state[key], action);
+            result[key] = dict[key](state === void 0 ? state : state[key], action);
         }
         return result as D;
     };
