@@ -42,7 +42,10 @@ export class Store<S, A>{
             if (listening !== true){
                 return;
             }
+            listening = false;
             const idx = this.listeners.indexOf(f);
+            /* `idx` should never be -1 because guarded by `listening`. */
+            /* istanbul ignore else */
             if (idx !== -1){
                 this.listeners.splice(idx, 1);
             }

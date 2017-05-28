@@ -7,8 +7,6 @@
     "declaration": true,
     "importHelpers": true,
     "noEmitOnError": true,
-    "removeComments": true,
-    "sourceMap": false,
     "alwaysStrict": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,

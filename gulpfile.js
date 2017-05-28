@@ -1,4 +1,5 @@
 const gulp = require('gulp');
+const sourcemaps = require('gulp-sourcemaps');
 const gulpChanged = require('gulp-changed');
 const merge2 = require('merge2');
 
@@ -15,10 +16,12 @@ const tsTestProj = gulpTS.createProject('tsconfig.json', {
     declaration: false,
 });
 gulp.task('tsc', ()=>{
-    const rs = gulp.src('./lib/**/*.ts').pipe(tsMainProj());
+    const rs = gulp.src('./lib/**/*.ts')
+    .pipe(sourcemaps.init())
+    .pipe(tsMainProj());
 
     return merge2(
-        rs.js.pipe(gulp.dest('dist/lib')),
+        rs.js.pipe(sourcemaps.write()).pipe(gulp.dest('dist/lib')),
         rs.dts.pipe(gulp.dest('dist/typings'))
     );
 });
@@ -28,8 +31,11 @@ gulp.task('watch-tsc', ['tsc'], ()=>{
 
 gulp.task('test-tsc', ()=>{
     return gulp.src(['./test/**/*.ts', '!./test/typing/**/*.ts'])
+    .pipe(sourcemaps.init())
     .pipe(tsTestProj())
-    .js.pipe(gulp.dest('dist/test'));
+    .js
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('dist/test'));
 });
 gulp.task('watch-test-tsc', ['test-tsc'], ()=>{
     gulp.watch(['test/**/*.ts', '!test/typing/**/*.ts'], ['test-tsc']);

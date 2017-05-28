@@ -7,6 +7,9 @@ export interface CompileResult{
     success: boolean;
     diagnostics: Array<ts.Diagnostic>;
 }
+function dmes(message: string | ts.DiagnosticMessageChain): string{
+    return ts.flattenDiagnosticMessageText(message, '\n').trim();
+}
 
 // compile関係のextension
 expect.extend({
@@ -28,7 +31,7 @@ Expected file to compile, but errors occurred:
 ` + diagnostics.map(({
     code,
     messageText,
-})=> `${code} : ${messageText}`).join('\n');
+})=> `${code} : ${dmes(messageText)}`).join('\n');
         return {
             pass: success,
             message,
@@ -49,7 +52,7 @@ Expected file to compile, but errors occurred:
             }
             return expectedMessage(mes);
         };
-        const pass = !success && diagnostics.length === 1 && chk(diagnostics[0].messageText as string);
+        const pass = !success && diagnostics.length === 1 && chk(dmes(diagnostics[0].messageText));
         const message =
             pass ?
             ()=> `${this.utils.matcherHint('.not.compileFails', `compile(${filename})`, 'string' === typeof expectedMessage ? expectedMessage : '')}
@@ -59,7 +62,7 @@ Expected file not to compile with the specified error, but it did not. The follo
 ` + diagnostics.map(({
     code,
     messageText,
-})=> `${code} : ${messageText}`).join('\n')
+})=> `${code} : ${dmes(messageText)}`).join('\n')
 
             : ()=> `${this.utils.matcherHint('.compileFails', `compile(${filename})`, 'string' === typeof expectedMessage ? expectedMessage : '')}
 
@@ -68,7 +71,7 @@ Expected file to cause the specified error, but it did not. The following ${this
 ` + diagnostics.map(({
     code,
     messageText,
-})=> `${code} : ${messageText}`).join('\n');
+})=> `${code} : ${dmes(messageText)}`).join('\n');
         return {
             pass,
             message,
@@ -78,28 +81,25 @@ Expected file to cause the specified error, but it did not. The following ${this
 });
 
 
-export function compile(...paths: Array<string>): Promise<CompileResult>{
-    const filename = path.resolve(...paths);
-    return new Promise<CompileResult>((resolve, reject)=>{
-        const program = ts.createProgram([filename], {
+export function compile(...paths: Array<Array<string>>): Promise<Array<CompileResult>>{
+    const filenames = paths.map(ps=> path.resolve(...ps));
+    return new Promise<Array<CompileResult>>((resolve, reject)=>{
+        const program = ts.createProgram(filenames, {
             noEmitOnError: true,
             noImplicitAny: true,
         });
 
         const diagnostics = ts.getPreEmitDiagnostics(program);
-        if (diagnostics.length > 0){
-            resolve({
-                success: false,
+        // ファイルごとに分類
+        const results: Array<CompileResult> = [];
+        for (const filename of filenames){
+            const d = diagnostics.filter(({file: {fileName}})=> fileName === filename);
+            results.push({
+                success: d.length === 0,
                 filename,
-                diagnostics,
-            });
-        }else{
-            resolve({
-                success: true,
-                filename,
-                diagnostics,
+                diagnostics: d,
             });
         }
-        resolve();
+        resolve(results);
     });
 }
