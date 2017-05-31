@@ -11,10 +11,6 @@ const typescript = require('typescript');
 const tsMainProj = gulpTS.createProject('tsconfig.json', {
     typescript,
 });
-const tsTestProj = gulpTS.createProject('tsconfig.json', {
-    typescript,
-    declaration: false,
-});
 gulp.task('tsc', ()=>{
     const rs = gulp.src('./lib/**/*.ts{,x}')
     .pipe(sourcemaps.init())

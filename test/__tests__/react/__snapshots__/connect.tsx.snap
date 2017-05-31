@@ -16,3 +16,37 @@ exports[`connect basic 1`] = `
   </p>
 </div>
 `;
+
+exports[`connect reacts to state change 1`] = `
+<div>
+  <p>
+    foo: 
+    FOO
+  </p>
+  <p>
+    bar: 
+    0
+  </p>
+  <p>
+    hey: 
+    Hey!
+  </p>
+</div>
+`;
+
+exports[`connect reacts to state change 2`] = `
+<div>
+  <p>
+    foo: 
+    風呂
+  </p>
+  <p>
+    bar: 
+    123
+  </p>
+  <p>
+    hey: 
+    Hey!
+  </p>
+</div>
+`;

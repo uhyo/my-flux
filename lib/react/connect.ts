@@ -36,6 +36,7 @@ export function connect<State, Action, AddedProps extends object>(
                 });
             }
             componentWillUnmount(){
+                /* istanbul ignore else */
                 if (this.unsubscribe != null){
                     this.unsubscribe();
                     this.unsubscribe = void 0;
