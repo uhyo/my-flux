@@ -24,15 +24,10 @@ export function connect<State, Action, AddedProps extends object>(
         return class extends Component<OriginalProps, AddedProps>{
             protected unsubscribe: undefined | (()=>void);
             constructor(props: OriginalProps){
+                super(props);
+
                 // 現在のstateを取得
                 const added = mapStateToProps(store.getState());
-
-                // FIXME
-                const extendedProps: OriginalProps & AddedProps = {
-                    ... (props as any),
-                    ... (added as any),
-                };
-                super(extendedProps);
 
                 this.state = added;
                 this.unsubscribe = store.subscribe(state=>{

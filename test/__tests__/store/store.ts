@@ -1,9 +1,9 @@
 import {
     Reducer,
-} from '../../lib/reducer';
+} from '../../../lib/reducer';
 import {
     Store,
-} from '../../lib/store';
+} from '../../../lib/store';
 
 describe('store', ()=>{
     type FooState = string;

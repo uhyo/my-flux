@@ -1,7 +1,7 @@
 import {
     combineReducers,
     Reducer,
-} from '../../../typings/reducer';
+} from '../../../dist/typings/reducer';
 
 interface Action{}
 

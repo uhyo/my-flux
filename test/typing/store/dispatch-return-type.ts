@@ -1,9 +1,9 @@
 import {
     Reducer,
-} from '../../../typings/reducer';
+} from '../../../dist/typings/reducer';
 import {
     Store,
-} from '../../../typings/store';
+} from '../../../dist/typings/store';
 
 interface Action{
     'this is action': true;

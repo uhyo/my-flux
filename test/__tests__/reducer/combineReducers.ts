@@ -1,7 +1,7 @@
 import {
     Reducer,
     combineReducers,
-} from '../../lib/reducer';
+} from '../../../lib/reducer';
 
 describe('combineReducers', ()=>{
     interface Action{

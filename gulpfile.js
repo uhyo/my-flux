@@ -16,7 +16,7 @@ const tsTestProj = gulpTS.createProject('tsconfig.json', {
     declaration: false,
 });
 gulp.task('tsc', ()=>{
-    const rs = gulp.src('./lib/**/*.ts')
+    const rs = gulp.src('./lib/**/*.ts{,x}')
     .pipe(sourcemaps.init())
     .pipe(tsMainProj());
 
@@ -26,31 +26,11 @@ gulp.task('tsc', ()=>{
     );
 });
 gulp.task('watch-tsc', ['tsc'], ()=>{
-    gulp.watch('lib/**/*.ts', ['tsc']);
+    gulp.watch('lib/**/*.ts{,x}', ['tsc']);
 });
 
-gulp.task('test-tsc', ()=>{
-    return gulp.src(['./test/**/*.ts', '!./test/typing/**/*.ts'])
-    .pipe(sourcemaps.init())
-    .pipe(tsTestProj())
-    .js
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('dist/test'));
-});
-gulp.task('watch-test-tsc', ['test-tsc'], ()=>{
-    gulp.watch(['test/**/*.ts', '!test/typing/**/*.ts'], ['test-tsc']);
-});
-gulp.task('test-typing', ()=>{
-    return gulp.src('./test/typing/**/*.ts')
-    .pipe(gulpChanged('dist/test/typing'))
-    .pipe(gulp.dest('dist/test/typing'));
-});
-gulp.task('watch-test-typing', ['test-typing'], ()=>{
-    gulp.watch('test/typing/**/*.ts', ['test-typing']);
-});
-
-gulp.task('default', ['tsc', 'test-tsc', 'test-typing']);
-gulp.task('watch', ['watch-tsc', 'watch-test-tsc', 'watch-test-typing']);
+gulp.task('default', ['tsc']);
+gulp.task('watch', ['watch-tsc']);
 
 gulp.task('clean', ()=>{
     return del([

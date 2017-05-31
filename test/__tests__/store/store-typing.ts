@@ -1,12 +1,17 @@
 import {
     compile,
-} from '../util/typescript';
+} from '../../util/typescript';
+
+// compile henlper function
+function fcompile(...filenames: Array<string>){
+    return compile(... filenames.map(f=> [__dirname, '../../typing/store', f]));
+}
 
 describe('type definition of Store', ()=>{
     it('infers state type', async ()=>{
-        const [p1, p2] = await compile(
-            [__dirname, '../typing/store/store-type.ts'],
-            [__dirname, '../typing/store/store-type-ill-1.ts'],
+        const [p1, p2] = await fcompile(
+            'store-type.ts',
+            'store-type-ill-1.ts',
         );
 
         expect(p1).compileSuccess();
@@ -14,13 +19,13 @@ describe('type definition of Store', ()=>{
         expect(p2).compileFails(`Property 'vaooo' does not exist on type 'FooState'.`);
     });
     it('infers action type', async ()=>{
-        const [p1, p2, p3, p4, p5, p6] = await compile(
-            [__dirname, '../typing/store/dispatch-type.ts'],
-            [__dirname, '../typing/store/dispatch-type-ill-1.ts'],
-            [__dirname, '../typing/store/dispatch-return-type.ts'],
-            [__dirname, '../typing/store/dispatch-return-type-ill-1.ts'],
-            [__dirname, '../typing/store/dispatch-return-type-ill-2.ts'],
-            [__dirname, '../typing/store/dispatch-return-type-ill-3.ts'],
+        const [p1, p2, p3, p4, p5, p6] = await fcompile(
+            'dispatch-type.ts',
+            'dispatch-type-ill-1.ts',
+            'dispatch-return-type.ts',
+            'dispatch-return-type-ill-1.ts',
+            'dispatch-return-type-ill-2.ts',
+            'dispatch-return-type-ill-3.ts',
         );
 
         expect(p1).compileSuccess();
@@ -32,9 +37,9 @@ describe('type definition of Store', ()=>{
         expect(p6).compileFails(`Type '6' is not assignable to type '{ type: "bar"; value2: "on"; }'.`);
     });
     it('infers subscribe type', async ()=>{
-        const [p1, p2] = await compile(
-            [__dirname, '../typing/store/subscribe-type.ts'],
-            [__dirname, '../typing/store/subscribe-type-ill-1.ts'],
+        const [p1, p2] = await fcompile(
+            'subscribe-type.ts',
+            'subscribe-type-ill-1.ts',
         );
 
         expect(p1).compileSuccess();

@@ -22,6 +22,7 @@
   "devDependencies": {
     "@types/jest": "^19.2.3",
     "@types/node": "^7.0.21",
+    "@types/react-test-renderer": "^15.5.0",
     "babel-jest": "^20.0.3",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
     "del": "^2.2.2",
@@ -32,6 +33,8 @@
     "jest": "^20.0.3",
     "merge2": "^1.0.3",
     "react": "^15.5.4",
+    "react-test-renderer": "^15.5.4",
+    "ts-jest": "^20.0.5",
     "typescript": "^2.3.2"
   },
   "dependencies": {
@@ -45,9 +48,13 @@
   },
   "jest": {
     "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/lib/**/*.ts{,x}"
+    ],
     "mapCoverage": true,
+    "moduleFileExtensions": ["ts", "tsx", "js"],
     "testMatch": [
-      "**/dist/test/**/*.js"
+      "**/__tests__/**/*.ts{,x}"
     ],
     "testPathIgnorePatterns": [
       "/node_modules/",
@@ -55,7 +62,8 @@
       "<rootDir>/dist/test/typing/"
     ],
     "transform": {
-      "^.+\\.js$": "babel-jest"
+      "^.+\\.js$": "babel-jest",
+      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     }
   }
 }

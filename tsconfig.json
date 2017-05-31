@@ -8,6 +8,8 @@
     "importHelpers": true,
     "noEmitOnError": true,
     "alwaysStrict": true,
+    "jsx": "React",
+    "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
@@ -17,6 +19,8 @@
   },
   "include": [
     "./lib/**/*.ts",
-    "./test/**/*.ts"
+    "./lib/**/*.tsx",
+    "./test/**/*.ts",
+    "./test/**/*.tsx"
   ]
 }
