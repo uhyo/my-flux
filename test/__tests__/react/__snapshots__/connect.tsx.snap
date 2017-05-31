@@ -17,6 +17,81 @@ exports[`connect basic 1`] = `
 </div>
 `;
 
+exports[`connect basic with dispatchToProps 1`] = `
+<div
+  onClick={[Function]}
+>
+  <p>
+    disp: 
+    10
+  </p>
+  <div>
+    <p>
+      foo: 
+      FOO
+    </p>
+    <p>
+      bar: 
+      0
+    </p>
+    <p>
+      hey: 
+      Hooy!
+    </p>
+  </div>
+</div>
+`;
+
+exports[`connect dispatch is connected to store 1`] = `
+<div
+  onClick={[Function]}
+>
+  <p>
+    disp: 
+    10
+  </p>
+  <div>
+    <p>
+      foo: 
+      FOO
+    </p>
+    <p>
+      bar: 
+      0
+    </p>
+    <p>
+      hey: 
+      Hooy!
+    </p>
+  </div>
+</div>
+`;
+
+exports[`connect dispatch is connected to store 2`] = `
+<div
+  onClick={[Function]}
+>
+  <p>
+    disp: 
+    10
+  </p>
+  <div>
+    <p>
+      foo: 
+      Foooo
+    </p>
+    <p>
+      bar: 
+      100
+    </p>
+    <p>
+      hey: 
+      Hooy!
+    </p>
+  </div>
+</div>
+`;
+
 exports[`connect reacts to state change 1`] = `
 <div>
   <p>
