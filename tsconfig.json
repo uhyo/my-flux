@@ -19,8 +19,6 @@
   },
   "include": [
     "./lib/**/*.ts",
-    "./lib/**/*.tsx",
-    "./test/**/*.ts",
-    "./test/**/*.tsx"
+    "./lib/**/*.tsx"
   ]
 }

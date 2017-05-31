@@ -1,14 +1,12 @@
 import {
     Component,
+    ComponentClass,
+    StatelessComponent,
     createElement,
 } from 'react';
 import {
     Store,
 } from '../store';
-
-export interface ComponentClass<P, S>{
-    new(props: P): Component<P, S>;
-}
 
 export interface Selector<State, OriginalProps, ResultProps>{
     (state: State, props: OriginalProps): ResultProps;
@@ -17,16 +15,16 @@ export interface Dispatcher<Action>{
     <A extends Action>(action: A): Action;
 }
 
-export interface ComponentConnectFunction<AddedProps extends object>{
-    <OriginalProps extends object, State>(component: ComponentClass<OriginalProps & AddedProps, State>): ComponentClass<OriginalProps, AddedProps>;
+export interface ComponentConnectFunction<OriginalProps, AddedProps extends object>{
+    (component: ComponentClass<OriginalProps & AddedProps> | StatelessComponent<OriginalProps & AddedProps>): ComponentClass<OriginalProps>;
 }
-export function connect<State, Action, OriginalProps extends object, AddedByStateProps extends object, AddedByDispatchProps extends object>(
+export function connect<State, Action, OriginalProps extends object, AddedByStateProps extends object, AddedByDispatchProps extends object = {}>(
     store: Store<State, Action>,
     mapStateToProps: Selector<State, OriginalProps, AddedByStateProps>,
     mapDispatchToProps?: Selector<Dispatcher<Action>, OriginalProps, AddedByDispatchProps>,
-): ComponentConnectFunction<AddedByStateProps & AddedByDispatchProps>{
+): ComponentConnectFunction<OriginalProps, AddedByStateProps & AddedByDispatchProps>{
     type AddedProps = AddedByStateProps & AddedByDispatchProps;
-    return <WrappedState>(component: ComponentClass<OriginalProps & AddedProps, WrappedState>)=>{
+    return (component: ComponentClass<OriginalProps & AddedProps> | StatelessComponent<OriginalProps & AddedProps>)=>{
         return class extends Component<OriginalProps, AddedProps>{
             protected unsubscribe: undefined | (()=>void);
             constructor(props: OriginalProps){
@@ -64,7 +62,8 @@ export function connect<State, Action, OriginalProps extends object, AddedByStat
                     ... props2,
                     ... (this.state as any),
                 } as OriginalProps & AddedProps;
-                return createElement(component, props, children);
+                // FIXME
+                return createElement(component as any, props, children);
             }
         };
     };

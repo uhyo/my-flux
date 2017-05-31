@@ -87,6 +87,7 @@ export function compile(...paths: Array<Array<string>>): Promise<Array<CompileRe
         const program = ts.createProgram(filenames, {
             noEmitOnError: true,
             noImplicitAny: true,
+            jsx: ts.JsxEmit.Preserve,
         });
 
         const diagnostics = ts.getPreEmitDiagnostics(program);
