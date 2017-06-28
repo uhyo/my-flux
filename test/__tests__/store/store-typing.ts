@@ -43,6 +43,6 @@ describe('type definition of Store', ()=>{
         );
 
         expect(p1).compileSuccess();
-        expect(p2).compileFails(`Property 'value2' does not exist on type 'FooState'.`);
+        expect(p2).compileFails(/^Property 'value2' does not exist on type 'FooState'\./);
     });
 });
